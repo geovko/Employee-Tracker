@@ -1,5 +1,6 @@
 const inquirer = require("inquirer");
 const { Pool } = require("pg");
+require("dotenv").config();
 
 // Connect to database
 const pool = new Pool({
@@ -7,11 +8,38 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD,
   host: "localhost",
   database: process.env.DB_NAME,
+  port: 3306,
 });
 
 console.log(`Connected to the company_db database.`);
 
-const askQuestions = () => {
+const askQuestions = async () => {
+  let roleList;
+  let employeeList;
+  let departmentList;
+  try {
+    const result = await pool.query(`SELECT roles.title FROM roles`);
+    roleList = result.rows.map((row) => row.title);
+  } catch (error) {
+    console.error("Database query error: ", error);
+  }
+
+  try {
+    const result = await pool.query(
+      `SELECT CONCAT(employees.first_name, ' ', employees.last_name) FROM employees`
+    );
+    employeeList = result.rows.map((row) => row.concat);
+  } catch (error) {
+    console.error("Database query error: ", error);
+  }
+
+  try {
+    const result = await pool.query(`SELECT departments.name FROM departments`);
+    departmentList = result.rows.map((row) => row.name);
+  } catch (error) {
+    console.error("Database query error: ", error);
+  }
+
   inquirer
     .prompt([
       {
@@ -45,21 +73,21 @@ const askQuestions = () => {
         type: "list",
         name: "employeeRole",
         message: "What is the employee's role?",
-        choices: ["A", "B", "C"],
+        choices: roleList,
         when: (answers) => answers.purpose == "Add Employee",
       },
       {
         type: "list",
         name: "employeeManager",
         message: "Who is this employee's manager?",
-        choices: ["None", "A", "B", "C"],
+        choices: employeeList,
         when: (answers) => answers.purpose == "Add Employee",
       },
       {
         type: "list",
         name: "employeeName",
         message: "Which employee's role would you like to update?",
-        choices: ["A", "B", "C"],
+        choices: employeeList,
         when: (answers) => answers.purpose == "Update Employee Role",
       },
       {
@@ -84,7 +112,7 @@ const askQuestions = () => {
         type: "list",
         name: "roleDepartment",
         message: "Which department does the role belong to?",
-        choices: ["A", "B", "C"],
+        choices: departmentList,
         when: (answers) => answers.purpose == "Add Role",
       },
       {
@@ -97,24 +125,68 @@ const askQuestions = () => {
     .then((data) => {
       if (data.purpose == "View All Employees") {
         // View
+        const sql = `SELECT e.id, 
+          e.first_name AS first, 
+          e.last_name AS last, 
+          r.title AS role, 
+          r.salary AS salary, 
+          d.name AS department,
+          CONCAT(m.first_name, ' ', m.last_name) AS manager
+          FROM employees e
+          JOIN roles r ON e.role_id = r.id
+          JOIN departments d ON r.department_id = d.id
+          LEFT JOIN employees m ON e.manager_id=m.id`;
+
+        pool.query(sql, (err, res) => {
+          if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+          } else {
+            console.table(res.rows);
+          }
+          askQuestions();
+        });
       } else if (data.purpose == "Add Employee") {
         // Add
+        askQuestions();
       } else if (data.purpose == "Update Employee Role") {
         // Update
+        askQuestions();
       } else if (data.purpose == "View All Roles") {
         // View
+        const sql = `SELECT * FROM roles`;
+        pool.query(sql, (err, res) => {
+          if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+          } else {
+            console.log("\nRoles");
+            console.table(res.rows);
+          }
+          askQuestions();
+        });
       } else if (data.purpose == "Add Role") {
         // Add
+        askQuestions();
       } else if (data.purpose == "View All Departments") {
         // View
+        const sql = `SELECT * FROM departments`;
+        pool.query(sql, (err, res) => {
+          if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+          } else {
+            console.log("\nDepartments");
+            console.table(res.rows);
+          }
+          askQuestions();
+        });
       } else if (data.purpose == "Add Department") {
         // Add
+        askQuestions();
       } else if (data.purpose == "Quit") {
         // Quit
         pool.end();
-      }
-      if (data.purpose != "Quit") {
-        askQuestions();
       }
     })
     .catch((error) => {
