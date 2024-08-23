@@ -1,26 +1,26 @@
 INSERT INTO departments (name)
-VALUES ('Happiness'),
-       ('Sadness'),
-       ('Fear'),
-       ('Fury'),
-       ('Excitement');
+VALUES ('Design'),
+       ('Marketing'),
+       ('Planning'),
+       ('Finance'),
+       ('Fun');
        
 INSERT INTO roles (title, salary, department_id)
-VALUES ('Laughing', 200, 001),
-       ('Smiling', 300, 001),
-       ('Crying', 400, 002),
-       ('Shivering', 100, 003),
-       ('Burning', 150, 004),
-       ('Exploding', 100, 004),
-       ('Jumping', 500, 005);
+VALUES ('Web Designer', 200, 001),
+       ('Visonary', 300, 001),
+       ('The Talker', 400, 002),
+       ('The Planner', 100, 003),
+       ('Accountant', 150, 004),
+       ('Calculator', 100, 004),
+       ('Party-Starter', 500, 005);
 
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
-VALUES ('Billy', 'Bob', 001, null),
-       ('Piddly', 'Pod', 002, null),
+VALUES ('Billy', 'Bob', 001, 005),
+       ('Piddly', 'Pop', 002, 005),
        ('Samantha', 'Samms', 003, null),
-       ('Zamantha', 'Zamms', 003, 007),
-       ('Zi', 'Zierro', 004, 007),
+       ('Zamantha', 'Zamms', 003, null),
+       ('Zi', 'Zierro', 004, null),
        ('Edna', 'Claris', 005, null),
-       ('Belvis', 'Videt', 006, null),
-       ('Elvis', 'Idet', 006, 007),
-       ('Angie', 'Tiao', 007, null);
+       ('Belvis', 'Videt', 006, 006),
+       ('Elvis', 'Idet', 006, 006),
+       ('Sassafras', 'Topeka', 007, null);
