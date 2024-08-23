@@ -16,7 +16,7 @@ Due to the different parts coming together in the development of this project, m
 
 Access the Walk-Through video through the link provided below!
 
-[Employee Tracker](https://drive.google.com/file/d/1iBwiJuOzPYU1LMZVqHv-mk1qU0aKsy4A/view)
+[Employee Tracker: Walkthrough Video](https://drive.google.com/file/d/1iBwiJuOzPYU1LMZVqHv-mk1qU0aKsy4A/view)
 
 _OR_ Copy this link to paste into a browser.
 
