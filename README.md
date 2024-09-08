@@ -16,12 +16,12 @@ Due to the different parts coming together in the development of this project, m
 
 Access the Walk-Through video through the link provided below!
 
-[Employee Tracker: Walkthrough Video](https://drive.google.com/file/d/1iBwiJuOzPYU1LMZVqHv-mk1qU0aKsy4A/view)
+[Employee Tracker: Walkthrough Video](https://drive.google.com/file/d/19CyN0bfeTxTJskAqlY10s2CI_WRvK8b3/view?usp=sharing)
 
 _OR_ Copy this link to paste into a browser.
 
 ```md
-https://drive.google.com/file/d/1iBwiJuOzPYU1LMZVqHv-mk1qU0aKsy4A/view
+https://drive.google.com/file/d/19CyN0bfeTxTJskAqlY10s2CI_WRvK8b3/view?usp=sharing
 ```
 
 Once the files are opened in the desired location, open the terminal. In the video, I have opened the terminal from the index.js file. In the terminal, install the related npm packages ('npm install'). Assuming the database is already populated with the seed and schema (templates provided in the 'db' folder), input 'node index.js' to begin the program.
